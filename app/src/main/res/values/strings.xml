@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Personal organizer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_subtitle">Krystian Goluch \nkrystian963@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_notes">Notes</string>
+    <string name="menu_events">Events</string>
+    <string name="menu_map">Check locations nearby</string>
+
+    <string name="add_note_title">Create a new note</string>
+    <string name="edit_note_date">Last modified:</string>
+    <string name="add_note_noteTitle">Note title</string>
+    <string name="add_note_description">Description</string>
+    <string name="add_note_popup">Add Note</string>
+
+    <string name="add_event_title">Create a new event</string>
+    <string name="edit_event_date">Last modified:</string>
+    <string name="add_event_noteTitle">Event title</string>
+    <string name="add_event_description">Notes about the event</string>
+
+    <string name="event_dialog_question">Do you want to add the event to your calendar?</string>
+    <string name="event_dialog_positive">Yes, take me to the calendar</string>
+    <string name="event_dialog_negative">No</string>
+    <string name="emergency_quote">Be positive! No internet connection gives you more time to enjoy the world around you</string>
+
+    <string name="settings_note_all">All</string>
+    <string name="settings_note_done">Finished</string>
+    <string name="settings_note_unfinished">Unfinished</string>
+</resources>

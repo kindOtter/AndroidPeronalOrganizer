@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/displayAll_settings"
+        android:orderInCategory="1"
+        android:title="@string/settings_note_all"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/displayFinished_settings"
+        android:orderInCategory="2"
+        android:title="@string/settings_note_done"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/displayUnfinished_settings"
+        android:orderInCategory="3"
+        android:title="@string/settings_note_unfinished"
+        app:showAsAction="never" />
+</menu>
