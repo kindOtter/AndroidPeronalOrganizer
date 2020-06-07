@@ -8,6 +8,7 @@ import android.view.ViewParent;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
+import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import org.hamcrest.Description;
@@ -19,8 +20,7 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -30,13 +30,19 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class CreateNote {
+public class MapIsDisplayedTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+    @Rule
+    public GrantPermissionRule mGrantPermissionRule =
+            GrantPermissionRule.grant(
+                    "android.permission.ACCESS_FINE_LOCATION",
+                    "android.permission.ACCESS_COARSE_LOCATION");
+
     @Test
-    public void createNote() {
+    public void mapIsDisplayedTest() {
         ViewInteraction appCompatImageButton = onView(
                 allOf(withContentDescription("Open navigation drawer"),
                         childAtPosition(
@@ -48,55 +54,25 @@ public class CreateNote {
                         isDisplayed()));
         appCompatImageButton.perform(click());
 
-        ViewInteraction navigationMenuItemView = onView(
+        ViewInteraction navigationMenuItemView2 = onView(
                 allOf(childAtPosition(
                         allOf(withId(R.id.design_navigation_view),
                                 childAtPosition(
                                         withId(R.id.nav_view),
                                         0)),
-                        2),
+                        4),
                         isDisplayed()));
-        navigationMenuItemView.perform(click());
+        navigationMenuItemView2.perform(click());
 
-        ViewInteraction floatingActionButton = onView(
-                allOf(withId(R.id.floatingButtonAddNote),
+        ViewInteraction frameLayout = onView(
+                allOf(withId(R.id.mapView),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.nav_host_fragment),
                                         0),
-                                1),
-                        isDisplayed()));
-        floatingActionButton.perform(click());
-
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.addNoteTitle),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        appCompatEditText.perform(replaceText("Note espresso test"), closeSoftKeyboard());
-
-        ViewInteraction textInputEditText = onView(
-                allOf(withId(R.id.addNoteDescription),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("com.google.android.material.textfield.TextInputLayout")),
-                                        0),
                                 0),
                         isDisplayed()));
-        textInputEditText.perform(replaceText("Espresso test"), closeSoftKeyboard());
-
-        ViewInteraction actionMenuItemView = onView(
-                allOf(withId(R.id.save_note), withContentDescription("Save"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.action_bar),
-                                        2),
-                                0),
-                        isDisplayed()));
-        actionMenuItemView.perform(click());
+        frameLayout.check(matches(isDisplayed()));
     }
 
     private static Matcher<View> childAtPosition(

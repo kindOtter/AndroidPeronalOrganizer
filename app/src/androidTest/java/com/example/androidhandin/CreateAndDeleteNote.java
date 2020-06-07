@@ -23,6 +23,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
@@ -34,16 +35,18 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class CreateNoteFromMainScreen {
+public class CreateAndDeleteNote {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void createNoteFromMainScreen() {
+    public void createAndDeleteNote() {
         RecyclerView recyclerView = mActivityTestRule.getActivity().findViewById(R.id.home_listOfNotes_RecyclerView);
-        int itemCount = recyclerView.getAdapter().getItemCount();
-        System.out.println("HEHEHEHEHE " + itemCount);
+        int lastPosition = recyclerView.getAdapter().getItemCount();
+        String inputTitle = "Espresso testing";
+        String inputDescription = "You gotta love Espresso";
+
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.floatingButtonAddEventOrNote),
                         childAtPosition(
@@ -72,7 +75,7 @@ public class CreateNoteFromMainScreen {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("Espresso test"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText(inputTitle), closeSoftKeyboard());
 
         ViewInteraction textInputEditText = onView(
                 allOf(withId(R.id.addNoteDescription),
@@ -82,7 +85,7 @@ public class CreateNoteFromMainScreen {
                                         0),
                                 0),
                         isDisplayed()));
-        textInputEditText.perform(replaceText("test"), closeSoftKeyboard());
+        textInputEditText.perform(replaceText(inputDescription), closeSoftKeyboard());
 
         ViewInteraction actionMenuItemView = onView(
                 allOf(withId(R.id.save_note), withContentDescription("Save"),
@@ -94,55 +97,56 @@ public class CreateNoteFromMainScreen {
                         isDisplayed()));
         actionMenuItemView.perform(click());
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.note_view_title), withText("Espresso test"),
-                        childAtPosition(
-                                childAtPosition(
-                                        IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textView.check(matches(withText("Espresso test")));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.note_view_description), withText("test"),
-                        childAtPosition(
-                                childAtPosition(
-                                        IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class),
-                                        0),
-                                1),
-                        isDisplayed()));
-        textView2.check(matches(withText("test")));
-
         ViewInteraction cardView = onView(
                 allOf(childAtPosition(
                         allOf(withId(R.id.home_listOfNotes_RecyclerView),
                                 childAtPosition(
                                         withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                                         0)),
-                        2),
+                        lastPosition),
                         isDisplayed()));
         cardView.perform(click());
 
-        ViewInteraction editText = onView(
-                allOf(withId(R.id.addNoteTitle), withText("Espresso test"),
+        ViewInteraction editText3 = onView(
+                allOf(withId(R.id.addNoteTitle), withText(inputTitle),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
                                 1),
                         isDisplayed()));
-        editText.check(matches(withText("Espresso test")));
+        editText3.check(matches(withText(inputTitle)));
 
-        ViewInteraction editText2 = onView(
-                allOf(withId(R.id.addNoteDescription), withText("test"),
+        ViewInteraction editText4 = onView(
+                allOf(withId(R.id.addNoteDescription), withText(inputDescription),
                         childAtPosition(
                                 childAtPosition(
                                         IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
                                         0),
                                 0),
                         isDisplayed()));
-        editText2.check(matches(withText("test")));
+        editText4.check(matches(withText(inputDescription)));
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Navigate up"),
+                        childAtPosition(
+                                allOf(withId(R.id.action_bar),
+                                        childAtPosition(
+                                                withId(R.id.action_bar_container),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction cardView2 = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.home_listOfNotes_RecyclerView),
+                                childAtPosition(
+                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                        0)),
+                        lastPosition),
+                        isDisplayed()));
+        cardView2.perform(swipeLeft());
     }
 
     private static Matcher<View> childAtPosition(

@@ -1,13 +1,8 @@
 package com.example.androidhandin.Networking;
 
-import android.content.res.Resources;
 import android.os.AsyncTask;
 
-import com.bumptech.glide.load.engine.Resource;
-import com.example.androidhandin.R;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -22,10 +17,12 @@ public class QuoteApi extends AsyncTask<Void, Void, String> {
             HttpResponse<String> response = Unirest.get("https://quotes.rest/qod?language=en")
                     .asString();
             Gson gson = new Gson();
-            message = response.getBody();
-            Response jsonResponse = gson.fromJson(response.getBody(), Response.class);
+            Response2 jsonResponse = gson.fromJson(response.getBody(), Response2.class);
             String quote = jsonResponse.getContents().getQuotes().get(0).getQuote();
             String author = jsonResponse.getContents().getQuotes().get(0).getAuthor();
+            if (author == null) {
+                author = "Unknown";
+            }
             String finalFormat = quote + " ~ " + author;
             return finalFormat;
 
