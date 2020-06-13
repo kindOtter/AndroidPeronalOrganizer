@@ -57,7 +57,6 @@ public class HomeFragment extends Fragment {
         addNoteButton = root.findViewById(R.id.floatingButtonAddNote_home);
         addEventButton = root.findViewById(R.id.floatingButtonAddEvent_home);
         String quote = homeViewModel.getQuote();
-        //String quote = "\"If you cannot do great things, do small things in a great way\" ~ Napoleon Hill";
         if(quote == null) {
             quoteOfTheDayTextView.setText(R.string.emergency_quote);
         } else {

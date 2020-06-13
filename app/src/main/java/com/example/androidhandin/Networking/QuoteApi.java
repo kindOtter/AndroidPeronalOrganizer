@@ -17,7 +17,7 @@ public class QuoteApi extends AsyncTask<Void, Void, String> {
             HttpResponse<String> response = Unirest.get("https://quotes.rest/qod?language=en")
                     .asString();
             Gson gson = new Gson();
-            Response2 jsonResponse = gson.fromJson(response.getBody(), Response2.class);
+            Response jsonResponse = gson.fromJson(response.getBody(), Response.class);
             String quote = jsonResponse.getContents().getQuotes().get(0).getQuote();
             String author = jsonResponse.getContents().getQuotes().get(0).getAuthor();
             if (author == null) {
